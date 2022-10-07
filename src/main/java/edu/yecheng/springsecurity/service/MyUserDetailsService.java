@@ -3,6 +3,7 @@ package edu.yecheng.springsecurity.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.yecheng.springsecurity.entity.Users;
 import edu.yecheng.springsecurity.mapper.UsersMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -25,6 +26,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Resource
     private UsersMapper usersMapper;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,7 +41,7 @@ public class MyUserDetailsService implements UserDetailsService {
         }
         List<GrantedAuthority> role = AuthorityUtils.commaSeparatedStringToAuthorityList("role,admins,ROLE_jack");
         /*从查询数据库返回users对象，得到用户名和密码返回*/
-        return new User(users.getUsername(), new BCryptPasswordEncoder().encode(users.getPassword()), role);
+        return new User(users.getUsername(), bCryptPasswordEncoder.encode(users.getPassword()), role);
 
     }
 }

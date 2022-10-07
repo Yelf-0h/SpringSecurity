@@ -5,6 +5,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/test")
-
 public class TestController {
 
     @GetMapping("/hello")
@@ -40,9 +40,8 @@ public class TestController {
     }
 
     @GetMapping("/getAll")
-//    @PostAuthorize("hasAnyRole('ROLE_ajack','ROLE_yecheng')")
-    @PreAuthorize("hasAnyAuthority('menu:system')")
-//    @PostFilter("filterObject.username == 'admin1'")  //权限验证之后对数据进行过滤 留下用户名是 admin1 的数据
+    @PostAuthorize("hasAuthority('admins')")
+    @PostFilter("filterObject.username == 'admin1'")
     public List<Users> getAllUser() {
 
         ArrayList<Users> list = new ArrayList<>();
@@ -51,5 +50,6 @@ public class TestController {
         System.out.println(list);
         return list;
     }
-
+//    @PostAuthorize("hasAnyRole('ROLE_ajack','ROLE_yecheng')")
+    //权限验证之后对数据进行过滤 留下用户名是 admin1 的数据
 }

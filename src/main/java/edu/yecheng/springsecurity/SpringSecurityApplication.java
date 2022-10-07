@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  */
 @SpringBootApplication
 @MapperScan("edu.yecheng.springsecurity.mapper")
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityApplication {
 
     public static void main(String[] args) {
