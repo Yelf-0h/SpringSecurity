@@ -32,15 +32,17 @@ public class TestController {
     @GetMapping("/update")
 //    @Secured({"ROLE_jack","ROLE_yecheng"})  //角色校验注解
 //    @PreAuthorize("hasAuthority('admins')")  //权限校验注解，在方法执行之前校验
-    @PostAuthorize("hasAuthority('admin')")  //权限校验注解，在方法执行之后校验，所以就算没权限也是会执行方法
+//    @PostAuthorize("hasAuthority('admin')")  //权限校验注解，在方法执行之后校验，所以就算没权限也是会执行方法
+    @PreAuthorize("hasAnyAuthority('menu:system')")
     public String update() {
         System.out.println("update....................");
         return "hello-update";
     }
 
     @GetMapping("/getAll")
-    @PostAuthorize("hasAuthority('admin')")
-    @PostFilter("filterObject.username == 'admin1'")  //权限验证之后对数据进行过滤 留下用户名是 admin1 的数据
+//    @PostAuthorize("hasAnyRole('ROLE_ajack','ROLE_yecheng')")
+    @PreAuthorize("hasAnyAuthority('menu:system')")
+//    @PostFilter("filterObject.username == 'admin1'")  //权限验证之后对数据进行过滤 留下用户名是 admin1 的数据
     public List<Users> getAllUser() {
 
         ArrayList<Users> list = new ArrayList<>();

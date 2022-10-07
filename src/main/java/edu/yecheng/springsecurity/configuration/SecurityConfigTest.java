@@ -50,6 +50,8 @@ public class SecurityConfigTest extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.exceptionHandling().accessDeniedPage("/unauth.html");
         http.formLogin() //自定义自己编写的登录页面
                 .loginPage("/login.html")   //登录页面设置
                 .loginProcessingUrl("/user/login")  //登录访问路径
@@ -57,7 +59,9 @@ public class SecurityConfigTest extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers("/", "/test/hello", "user/login").permitAll() //设置哪些路径可以直接访问，不需要认证
 //                .antMatchers("/test/index").hasAuthority("admins") //设置当前路径只有admins权限才可以访问
-                .antMatchers("/test/index").hasAnyAuthority("admins","role") //设置当前路径只有admins或者role权限才可以访问
+//                .antMatchers("/test/index").hasAnyAuthority("admins","role") //设置当前路径只有admins或者role权限才可以访问
+//                .antMatchers("/test/index").hasRole("jack")  //设置当前路径只有jack角色才可以访问
+                .antMatchers("/test/index").hasAnyRole("ajack","yecheng") //设置当前路径只有jack或者yecheng角色才可以访问
                 .anyRequest().authenticated()  //表示所有请求都可以访问
                 .and().csrf().disable(); //csrf防护
     }
